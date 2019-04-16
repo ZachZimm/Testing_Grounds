@@ -4,9 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTTaskNode.h"
-#include "PatrollingGuard.h" // TODO Remove Coupling
 #include "BehaviorTree/BlackboardComponent.h"
 #include "AIController.h"
+#include "PatrolRoute.h"
 
 #include "ChooseNextWaypoint.generated.h"
 
@@ -19,7 +19,7 @@ class TESTING_GROUNDS_API UChooseNextWaypoint : public UBTTaskNode
 	GENERATED_BODY()
 
 private:
-	APatrollingGuard * Self;
+	APawn * Self;
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 
 protected:

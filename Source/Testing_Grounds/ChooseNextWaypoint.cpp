@@ -4,16 +4,29 @@
 
 EBTNodeResult::Type UChooseNextWaypoint::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
-	// TODO Protect against empty patrol routes
 
 	// Get data from blackboard
 	auto BlackboardComp = OwnerComp.GetBlackboardComponent();
 
-	// Get the patrol points
+	// Get the patrol route
 	auto aiController = OwnerComp.GetAIOwner();
-	auto controlledPawn = aiController->GetPawn();
-	Self = Cast<APatrollingGuard>(controlledPawn);
-	TArray<AActor *> & patrolPoints = Self->PatrolPoints;
+	Self = aiController->GetPawn();
+	UPatrolRoute * patrolRoute = Self->FindComponentByClass<UPatrolRoute>();
+		// Protect against owners without a PatrolRoute component
+	if (!ensure(patrolRoute)) { return EBTNodeResult::Failed; }
+		
+		// Warn about empty patrol routes
+	if (Self->FindComponentByClass<UPatrolRoute>()->GetPatrolPoints().Num() == 0 )
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s has ChooseNextWaypoint component but no patrol points"), *GetNameSafe(Self->GetOwner()));
+			return EBTNodeResult::Failed;
+			
+	}
+
+	TArray<AActor *> & patrolPoints = Self->FindComponentByClass<UPatrolRoute>()->GetPatrolPoints();
+
+
+
 
 	// Set next waypoint
 	auto index = BlackboardComp->GetValueAsInt(this->IndexKey.SelectedKeyName);

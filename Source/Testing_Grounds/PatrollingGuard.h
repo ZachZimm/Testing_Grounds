@@ -7,7 +7,7 @@
 #include "PatrollingGuard.generated.h"
 
 /**
- * 
+ * Gets and sets the next waypoint for patrolling guards
  */
 UCLASS()
 class TESTING_GROUNDS_API APatrollingGuard : public ATP_ThirdPersonCharacter
