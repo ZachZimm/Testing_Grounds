@@ -1,11 +1,11 @@
 // Copyright 1998-2018 Epic Games, Inc. All Rights Reserved.
 
-#include "Testing_GroundsGameMode.h"
-#include "Testing_GroundsHUD.h"
+#include "Testing_Grounds_GameMode.h"
+#include "Game/Testing_Grounds_HUD.h"
 #include "Player/FirstPersonCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 
-ATesting_GroundsGameMode::ATesting_GroundsGameMode()
+ATesting_Grounds_GameMode::ATesting_Grounds_GameMode()
 	: Super()
 {
 	// set default pawn class to our Blueprinted character
@@ -13,5 +13,5 @@ ATesting_GroundsGameMode::ATesting_GroundsGameMode()
 	DefaultPawnClass = PlayerPawnClassFinder.Class;
 
 	// use our custom HUD class
-	HUDClass = ATesting_GroundsHUD::StaticClass();
+	HUDClass = ATesting_Grounds_HUD::StaticClass();
 }
