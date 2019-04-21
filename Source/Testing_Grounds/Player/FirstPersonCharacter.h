@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Weapons/BouncingBall_Projectile.h"
 #include "FirstPersonCharacter.generated.h"
 
 class UInputComponent;
@@ -66,7 +67,7 @@ public:
 
 	/** Projectile class to spawn */
 	UPROPERTY(EditDefaultsOnly, Category=Projectile)
-	TSubclassOf<class ATesting_GroundsProjectile> ProjectileClass;
+	TSubclassOf<class ABouncingBall_Projectile> ProjectileClass;
 
 	/** Sound to play each time we fire */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
