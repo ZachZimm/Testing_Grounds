@@ -18,7 +18,7 @@ EBTNodeResult::Type UChooseNextWaypoint::ExecuteTask(UBehaviorTreeComponent& Own
 		// Warn about empty patrol routes
 	if (Self->FindComponentByClass<UPatrolRoute>()->GetPatrolPoints().Num() == 0 )
 	{
-		UE_LOG(LogTemp, Warning, TEXT("%s has ChooseNextWaypoint component but no patrol points"), *GetNameSafe(Self->GetOwner()));
+		UE_LOG(LogTemp, Warning, TEXT("%s has ChooseNextWaypoint component but no patrol points"), *GetNameSafe(Self));
 			return EBTNodeResult::Failed;
 			
 	}
