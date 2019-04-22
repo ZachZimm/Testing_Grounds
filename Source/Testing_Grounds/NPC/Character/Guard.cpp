@@ -17,10 +17,6 @@ AGuard::AGuard()
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
-	// set our turn rates for input
-	// BaseTurnRate = 45.f;
-	// BaseLookUpRate = 45.f;
-
 	// Don't rotate when the controller rotates. Let that just affect the camera.
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
@@ -32,19 +28,48 @@ AGuard::AGuard()
 	GetCharacterMovement()->JumpZVelocity = 600.f;
 	GetCharacterMovement()->AirControl = 0.2f;
 
-	// Create a camera boom (pulls in towards the player if there is a collision)
-	// CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
-	// CameraBoom->SetupAttachment(RootComponent);
-	// CameraBoom->TargetArmLength = 300.0f; // The camera follows at this distance behind the character	
-	// CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
+	// I'm not entirely sure what this does, something with a mesh
+	//Mesh3P = GetMesh();
+	//Mesh3P = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("CharacterMesh3P"));
+	//Mesh3P->SetOnlyOwnerSee(true);
+	//Mesh3P->bCastDynamicShadow = false;
+	//Mesh3P->CastShadow = false;
+	//Mesh3P->RelativeRotation = FRotator(0.f, 0.f, 0.f);
+	//Mesh3P->RelativeLocation = FVector(0.f, 0.f, -100.f);
 
-	//// Create a follow camera
-	//FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
-	// FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
-	// FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
+	// Create a gun mesh component
+	TP_Gun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("TP_Gun"));
+	TP_Gun->bCastDynamicShadow = false;
+	TP_Gun->CastShadow = false;
+	//TP_Gun->SetupAttachment(GetMesh(), TEXT("GripPoint"));
+	TP_Gun->SetupAttachment(RootComponent);
+
+	TP_MuzzleLocation = CreateDefaultSubobject<USceneComponent>(TEXT("MuzzleLocation"));
+	TP_MuzzleLocation->SetupAttachment(TP_Gun);
+	TP_MuzzleLocation->SetRelativeLocation(FVector(0.2f, 48.4f, -10.6f));
+
+	TP_Gun->SetOnlyOwnerSee(false);
+	TP_Gun->SetRelativeRotation(FRotator(349.199097f, 352.799072f, 349.198914f));
+	TP_Gun->RelativeRotation = FRotator(349.199097f, 352.799072f, 349.198914f);
+
+	// Default offset from the character location for projectiles to spawn
+	GunOffset = FVector(100.0f, 0.0f, 10.0f);
+
+	// Note: The ProjectileClass and the skeletal mesh/anim blueprints for Mesh3P, TP_Gun, and VR_Gun 
+	// are set in the derived blueprint asset named MyCharacter to avoid direct content references in C++.
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
+}
+
+void AGuard::BeginPlay()
+{
+	// Call the base class  
+	Super::BeginPlay();
+
+	//Attach gun mesh component to Skeleton, doing it here because the skeleton is not yet created in the constructor
+	TP_Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
+	//Mesh3P->SetHiddenInGame(true, true);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -63,10 +88,8 @@ void AGuard::SetupPlayerInputComponent(class UInputComponent* PlayerInputCompone
 	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
 	// "turn" handles devices that provide an absolute delta, such as a mouse.
 	// "turnrate" is for devices that we choose to treat as a rate of change, such as an analog joystick
-	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
-	PlayerInputComponent->BindAxis("TurnRate", this, &AGuard::TurnAtRate);
+	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput); // I don't think either of these are nedded
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
-	PlayerInputComponent->BindAxis("LookUpRate", this, &AGuard::LookUpAtRate);
 
 	// handle touch devices
 	PlayerInputComponent->BindTouch(IE_Pressed, this, &AGuard::TouchStarted);
@@ -90,18 +113,6 @@ void AGuard::TouchStarted(ETouchIndex::Type FingerIndex, FVector Location)
 void AGuard::TouchStopped(ETouchIndex::Type FingerIndex, FVector Location)
 {
 		StopJumping();
-}
-
-void AGuard::TurnAtRate(float Rate)
-{
-	// calculate delta for this frame from the rate information
-	// AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
-}
-
-void AGuard::LookUpAtRate(float Rate)
-{
-	// calculate delta for this frame from the rate information
-	// AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
 }
 
 void AGuard::MoveForward(float Value)
