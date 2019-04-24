@@ -13,8 +13,6 @@ class TESTING_GROUNDS_API UPatrolRoute : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-
-public:	
 	TArray<AActor *> & GetPatrolPoints();
 
 private:
