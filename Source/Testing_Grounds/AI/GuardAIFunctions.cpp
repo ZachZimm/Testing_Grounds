@@ -4,7 +4,7 @@
 
 void UGuardAIFunctions::FocusPlayer(UObject * WorldContextObject, AAIController * aiController) // Deprecated?
 {
-	UObject *const World = GEngine->GetWorldFromContextObjectChecked(WorldContextObject); // Set World from WorldContextObject
+	UObject *const World = GEngine->GetWorldFromContextObjectChecked(WorldContextObject); // Get World from WorldContextObject
 
 	ACharacter * playerCharacter = UGameplayStatics::GetPlayerCharacter(World, 0); // Get player location with World object
 	//FVector playerLocation = playerCharacter->GetActorLocation();
@@ -19,4 +19,21 @@ void UGuardAIFunctions::FocusPlayer(UObject * WorldContextObject, AAIController 
 float UGuardAIFunctions::GetPlayerPitchRelative (UObject * WorldContextObject, AGuard * guard) 
 {
 	return guard->GetControlRotation().Pitch;
+}
+
+void UGuardAIFunctions::UpdateEnemyKey(UObject * WorldContextObject, FAIStimulus stim, UBlackboardComponent * blackboardComp, FName enemyKeyName)
+{
+	UObject *const World = GEngine->GetWorldFromContextObjectChecked(WorldContextObject); // Get World from WorldContextObject
+	FString sensedString = "False";
+	if (stim.WasSuccessfullySensed()) 
+	{
+		sensedString = "True";
+		blackboardComp->SetValueAsObject(enemyKeyName, UGameplayStatics::GetPlayerCharacter(World, 0));
+	}
+	else 
+	{
+		blackboardComp->ClearValue(enemyKeyName);
+	}
+
+	UE_LOG(LogTemp, Warning, TEXT("Successfully sensed : %s"), *sensedString);
 }

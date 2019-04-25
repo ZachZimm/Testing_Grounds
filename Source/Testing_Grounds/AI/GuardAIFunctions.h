@@ -6,8 +6,11 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "Engine.h"
 #include "AIController.h"
-#include "../NPC/Character/Guard.h"
+#include "NPC/Character/Guard.h"
 #include "GameFramework/Controller.h"
+#include "Perception/AIPerceptionTypes.h"
+#include "BehaviorTree/BlackboardComponent.h"
+#include "BehaviorTree/BehaviorTreeTypes.h"
 #include "GuardAIFunctions.generated.h"
 
 /**
@@ -23,4 +26,11 @@ class TESTING_GROUNDS_API UGuardAIFunctions : public UBlueprintFunctionLibrary
 
 	UFUNCTION(BlueprintCallable, Category = "Perception", meta = (WorldContext = "WorldContextObject"))
 	static float GetPlayerPitchRelative(UObject * WorldContextObject, AGuard * guard);
+
+	UFUNCTION(BlueprintCallable, Category = "Perception", meta = (WorldContext = "WorldContextObject"))
+	static void UpdateEnemyKey(UObject * WorldContextObject, FAIStimulus stim, UBlackboardComponent * blackboardComp, FName enemyKeyName);
+
+	/*UPROPERTY(EditAnywhere, Category = "Blackboard")
+		struct FBlackboardKeySelector EnemyKey;*/
+	
 };

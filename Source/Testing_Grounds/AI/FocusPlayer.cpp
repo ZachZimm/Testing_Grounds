@@ -7,8 +7,9 @@ EBTNodeResult::Type UFocusPlayer::ExecuteTask(UBehaviorTreeComponent& OwnerComp,
 {
 	Super::ExecuteTask(OwnerComp, NodeMemory);
 	UBlackboardComponent* BlackboardComp = OwnerComp.GetBlackboardComponent();	// Get Blackboard
-	BlackboardComp->SetValueAsObject(EnemyKey.SelectedKeyName, GetWorld()->GetFirstPlayerController()->GetPawn()); // Set blackboard key value
-	OwnerComp.GetAIOwner()->SetFocus(GetWorld()->GetFirstPlayerController()->GetPawn());
+	//BlackboardComp->SetValueAsObject(EnemyKey.SelectedKeyName, GetWorld()->GetFirstPlayerController()->GetPawn()); // Set blackboard key value
+	AActor * enemyActor = Cast<AActor, UObject>(BlackboardComp->GetValueAsObject(EnemyKey.SelectedKeyName));
+	OwnerComp.GetAIOwner()->SetFocus(enemyActor);
 
 	float pitch = OwnerComp.GetAIOwner()->GetControlRotation().Pitch;
 	UE_LOG(LogTemp, Warning, TEXT("Pitch : %f"), pitch);
