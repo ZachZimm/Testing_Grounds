@@ -6,6 +6,7 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "Engine.h"
 #include "AIController.h"
+#include "../NPC/Character/Guard.h"
 #include "GameFramework/Controller.h"
 #include "GuardAIFunctions.generated.h"
 
@@ -19,4 +20,7 @@ class TESTING_GROUNDS_API UGuardAIFunctions : public UBlueprintFunctionLibrary
 
 	UFUNCTION(BlueprintCallable, Category="Perception", meta = (WorldContext = "WorldContextObject"))
 	static void FocusPlayer(UObject * WorldContextObject, AAIController * aiController);
+
+	UFUNCTION(BlueprintCallable, Category = "Perception", meta = (WorldContext = "WorldContextObject"))
+	static float GetPlayerPitchRelative(UObject * WorldContextObject, AGuard * guard);
 };

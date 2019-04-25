@@ -2,14 +2,21 @@
 
 #include "GuardAIFunctions.h"
 
-void UGuardAIFunctions::FocusPlayer(UObject * WorldContextObject, AAIController * aiController)
+void UGuardAIFunctions::FocusPlayer(UObject * WorldContextObject, AAIController * aiController) // Deprecated?
 {
-	UObject *const World = GEngine->GetWorldFromContextObject(WorldContextObject); // Set World from WorldContextObject
+	UObject *const World = GEngine->GetWorldFromContextObjectChecked(WorldContextObject); // Set World from WorldContextObject
 
 	ACharacter * playerCharacter = UGameplayStatics::GetPlayerCharacter(World, 0); // Get player location with World object
-	FVector playerLocation = playerCharacter->GetActorLocation();
+	//FVector playerLocation = playerCharacter->GetActorLocation();
 
-	aiController->SetFocalPoint(playerLocation); // Set AI focus to player's location
+	//aiController->SetFocalPoint(playerLocation); // Set AI focus to player's location - doesn't account for elevation
+	aiController->SetFocus(playerCharacter, EAIFocusPriority::Move); // Set AI focus to player
+	float pitch = aiController->GetControlRotation().Pitch;
+	
+	UE_LOG(LogTemp, Warning, TEXT("Player location is : %f"), pitch);
+}
 
-	//UE_LOG(LogTemp, Warning, TEXT("Player location is : %s"), *(playerLocation.ToString()));
+float UGuardAIFunctions::GetPlayerPitchRelative (UObject * WorldContextObject, AGuard * guard) 
+{
+	return guard->GetControlRotation().Pitch;
 }
