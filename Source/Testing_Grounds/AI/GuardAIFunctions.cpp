@@ -2,20 +2,6 @@
 
 #include "GuardAIFunctions.h"
 
-void UGuardAIFunctions::FocusPlayer(UObject * WorldContextObject, AAIController * aiController) // Deprecated?
-{
-	UObject *const World = GEngine->GetWorldFromContextObjectChecked(WorldContextObject); // Get World from WorldContextObject
-
-	ACharacter * playerCharacter = UGameplayStatics::GetPlayerCharacter(World, 0); // Get player location with World object
-	//FVector playerLocation = playerCharacter->GetActorLocation();
-
-	//aiController->SetFocalPoint(playerLocation); // Set AI focus to player's location - doesn't account for elevation
-	aiController->SetFocus(playerCharacter, EAIFocusPriority::Move); // Set AI focus to player
-	float pitch = aiController->GetControlRotation().Pitch;
-	
-	UE_LOG(LogTemp, Warning, TEXT("Player location is : %f"), pitch);
-}
-
 float UGuardAIFunctions::GetPlayerPitchRelative (UObject * WorldContextObject, AGuard * guard) 
 {
 	return guard->GetControlRotation().Pitch;
@@ -27,8 +13,11 @@ void UGuardAIFunctions::UpdateEnemyKey(UObject * WorldContextObject, FAIStimulus
 	FString sensedString = "False";
 	if (stim.WasSuccessfullySensed()) 
 	{
+		ACharacter * enemyCharacter = UGameplayStatics::GetPlayerCharacter(World, 0);
+
 		sensedString = "True";
-		blackboardComp->SetValueAsObject(enemyKeyName, UGameplayStatics::GetPlayerCharacter(World, 0));
+		blackboardComp->SetValueAsObject(enemyKeyName, enemyCharacter);
+
 	}
 	else 
 	{
@@ -36,4 +25,22 @@ void UGuardAIFunctions::UpdateEnemyKey(UObject * WorldContextObject, FAIStimulus
 	}
 
 	UE_LOG(LogTemp, Warning, TEXT("Successfully sensed : %s"), *sensedString);
+}
+
+void UGuardAIFunctions::SetLastKnown(UObject * WorldContextObject, FAIStimulus stim, UBlackboardComponent * blackboardComp, FName lastSeenKeyName) 
+{
+	UObject *const World = GEngine->GetWorldFromContextObjectChecked(WorldContextObject); // Get World from WorldContextObject
+
+	if (stim.WasSuccessfullySensed())
+	{
+		//blackboardComp->ClearValue(lastSeenKeyName);
+		FString stimString = blackboardComp->GetValueAsVector(lastSeenKeyName).ToString();
+		UE_LOG(LogTemp, Warning, TEXT("Last Seen Location : %s"), *stimString)
+	}
+	else
+	{
+		blackboardComp->SetValueAsVector(lastSeenKeyName, stim.StimulusLocation);
+		FString stimString = blackboardComp->GetValueAsVector(lastSeenKeyName).ToString();
+		UE_LOG(LogTemp, Warning, TEXT("Last Seen Location : %s"), *stimString)
+	}
 }

@@ -21,8 +21,6 @@ class TESTING_GROUNDS_API UGuardAIFunctions : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 
-	UFUNCTION(BlueprintCallable, Category="Perception", meta = (WorldContext = "WorldContextObject"))
-	static void FocusPlayer(UObject * WorldContextObject, AAIController * aiController);
 
 	UFUNCTION(BlueprintCallable, Category = "Perception", meta = (WorldContext = "WorldContextObject"))
 	static float GetPlayerPitchRelative(UObject * WorldContextObject, AGuard * guard);
@@ -30,7 +28,6 @@ class TESTING_GROUNDS_API UGuardAIFunctions : public UBlueprintFunctionLibrary
 	UFUNCTION(BlueprintCallable, Category = "Perception", meta = (WorldContext = "WorldContextObject"))
 	static void UpdateEnemyKey(UObject * WorldContextObject, FAIStimulus stim, UBlackboardComponent * blackboardComp, FName enemyKeyName);
 
-	/*UPROPERTY(EditAnywhere, Category = "Blackboard")
-		struct FBlackboardKeySelector EnemyKey;*/
-	
+	UFUNCTION(BlueprintCallable, Category = "Perception", meta = (WorldContext = "WorldContextObject"))
+	static void SetLastKnown(UObject * WorldContextObject, FAIStimulus stim, UBlackboardComponent * blackboardComp, FName lastSeenKeyName);
 };
