@@ -33,7 +33,7 @@ void UGuardAIFunctions::SetLastKnown(UObject * WorldContextObject, FAIStimulus s
 
 	if (stim.WasSuccessfullySensed())
 	{
-		//blackboardComp->ClearValue(lastSeenKeyName);
+		blackboardComp->ClearValue(lastSeenKeyName);
 		FString stimString = blackboardComp->GetValueAsVector(lastSeenKeyName).ToString();
 		UE_LOG(LogTemp, Warning, TEXT("Last Seen Location : %s"), *stimString)
 	}
