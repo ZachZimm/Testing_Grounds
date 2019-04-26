@@ -26,8 +26,8 @@ class TESTING_GROUNDS_API UGuardAIFunctions : public UBlueprintFunctionLibrary
 	static float GetPlayerPitchRelative(UObject * WorldContextObject, AGuard * guard);
 
 	UFUNCTION(BlueprintCallable, Category = "Perception", meta = (WorldContext = "WorldContextObject"))
-	static void UpdateEnemyKey(UObject * WorldContextObject, FAIStimulus stim, UBlackboardComponent * blackboardComp, FName enemyKeyName);
+	static void UpdateEnemyKey(UObject * WorldContextObject, FAIStimulus stim, UBlackboardComponent * blackboardComp, FName enemyKeyName, AActor * stimActor, TArray<FName> enemyTags);
 
 	UFUNCTION(BlueprintCallable, Category = "Perception", meta = (WorldContext = "WorldContextObject"))
-	static void SetLastKnown(UObject * WorldContextObject, FAIStimulus stim, UBlackboardComponent * blackboardComp, FName lastSeenKeyName);
+	static void SetLastKnown(UObject * WorldContextObject, FAIStimulus stim, UBlackboardComponent * blackboardComp, FName lastSeenKeyName, AActor * stimActor, TArray<FName> enemyTags);
 };
