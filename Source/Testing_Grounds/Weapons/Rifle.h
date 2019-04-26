@@ -35,6 +35,8 @@ public:
 	// Sets default values for this actor's properties
 	ARifle();
 
+	void OnFire(); // Called whenver an owning actor fires
+
 	/** Projectile class to spawn */
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 	TSubclassOf<class ABouncingBall_Projectile> ProjectileClass;
@@ -58,10 +60,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	class UAnimInstance* AnimInstance;
 
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	void OnFire();
 
 public:	
 	// Called every frame
