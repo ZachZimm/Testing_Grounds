@@ -37,23 +37,23 @@ AGuard::AGuard()
 	//Mesh3P->RelativeRotation = FRotator(0.f, 0.f, 0.f);
 	//Mesh3P->RelativeLocation = FVector(0.f, 0.f, -100.f);
 
-	// Create a gun mesh component
-	TP_Gun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("TP_Gun"));
-	TP_Gun->bCastDynamicShadow = false;
-	TP_Gun->CastShadow = false;
-	//TP_Gun->SetupAttachment(GetMesh(), TEXT("GripPoint"));
-	TP_Gun->SetupAttachment(RootComponent);
+	//// Create a gun mesh component
+	//TP_Gun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("TP_Gun"));
+	//TP_Gun->bCastDynamicShadow = false;
+	//TP_Gun->CastShadow = false;
+	////TP_Gun->SetupAttachment(GetMesh(), TEXT("GripPoint"));
+	//TP_Gun->SetupAttachment(RootComponent);
 
-	TP_MuzzleLocation = CreateDefaultSubobject<USceneComponent>(TEXT("MuzzleLocation"));
-	TP_MuzzleLocation->SetupAttachment(TP_Gun);
-	TP_MuzzleLocation->SetRelativeLocation(FVector(0.2f, 48.4f, -10.6f));
+	//TP_MuzzleLocation = CreateDefaultSubobject<USceneComponent>(TEXT("MuzzleLocation"));
+	//TP_MuzzleLocation->SetupAttachment(TP_Gun);
+	//TP_MuzzleLocation->SetRelativeLocation(FVector(0.2f, 48.4f, -10.6f));
 
-	TP_Gun->SetOnlyOwnerSee(false);
-	TP_Gun->SetRelativeRotation(FRotator(349.199097f, 352.799072f, 349.198914f));
-	TP_Gun->RelativeRotation = FRotator(349.199097f, 352.799072f, 349.198914f);
+	//TP_Gun->SetOnlyOwnerSee(false);
+	//TP_Gun->SetRelativeRotation(FRotator(349.199097f, 352.799072f, 349.198914f));
+	//TP_Gun->RelativeRotation = FRotator(349.199097f, 352.799072f, 349.198914f);
 
-	// Default offset from the character location for projectiles to spawn
-	GunOffset = FVector(100.0f, 0.0f, 10.0f);
+	//// Default offset from the character location for projectiles to spawn
+	//GunOffset = FVector(100.0f, 0.0f, 10.0f);
 
 	// Note: The ProjectileClass and the skeletal mesh/anim blueprints for Mesh3P, TP_Gun, and VR_Gun 
 	// are set in the derived blueprint asset named MyCharacter to avoid direct content references in C++.
@@ -68,7 +68,7 @@ void AGuard::BeginPlay()
 	Super::BeginPlay();
 
 	//Attach gun mesh component to Skeleton, doing it here because the skeleton is not yet created in the constructor
-	TP_Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
+	//TP_Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
 	//Mesh3P->SetHiddenInGame(true, true);
 }
 
