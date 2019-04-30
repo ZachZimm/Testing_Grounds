@@ -143,3 +143,5 @@ void AGuard::MoveRight(float Value)
 		AddMovementInput(Direction, Value);
 	}
 }
+
+

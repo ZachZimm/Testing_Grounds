@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Weapons/Rifle.h"
 #include "Guard.generated.h"
 
 /*	TODO
@@ -54,6 +55,7 @@ protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	// End of APawn interface
+
 
 public:
 	/** Gun muzzle's offset from the characters location */

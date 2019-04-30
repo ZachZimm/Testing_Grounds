@@ -35,6 +35,7 @@ public:
 	// Sets default values for this actor's properties
 	ARifle();
 
+	UFUNCTION(BlueprintCallable, Category="Fire")
 	void OnFire(); // Called whenver an owning actor fires
 
 	/** Projectile class to spawn */

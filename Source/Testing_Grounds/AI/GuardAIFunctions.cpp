@@ -10,8 +10,7 @@ float UGuardAIFunctions::GetPlayerPitchRelative (UObject * WorldContextObject, A
 void UGuardAIFunctions::UpdateEnemyKey(UObject * WorldContextObject, FAIStimulus stim, UBlackboardComponent * blackboardComp, FName enemyKeyName, AActor * stimActor, TArray<FName> enemyTags)
 {
 	UObject *const World = GEngine->GetWorldFromContextObjectChecked(WorldContextObject); // Get World from WorldContextObject
-	FString sensedString = "False"; // Debug
-
+	//FString sensedString = "False"; // Debug
 	TArray<FName> stimTags = stimActor->Tags;
 	bool isEnemy = false;
 	
@@ -29,9 +28,8 @@ void UGuardAIFunctions::UpdateEnemyKey(UObject * WorldContextObject, FAIStimulus
 		{
 			ACharacter * enemyCharacter = UGameplayStatics::GetPlayerCharacter(World, 0);
 
-			sensedString = "True";
+			//sensedString = "True";
 			blackboardComp->SetValueAsObject(enemyKeyName, enemyCharacter);
-
 		}
 		else
 		{
@@ -39,8 +37,7 @@ void UGuardAIFunctions::UpdateEnemyKey(UObject * WorldContextObject, FAIStimulus
 		}
 	}
 	
-
-	UE_LOG(LogTemp, Warning, TEXT("Sensed : %s"), *(stimTags[0].ToString()));
+	//UE_LOG(LogTemp, Warning, TEXT("Sensed : %s"), *(stimTags[0].ToString()));
 }
 
 void UGuardAIFunctions::SetLastKnown(UObject * WorldContextObject, FAIStimulus stim, UBlackboardComponent * blackboardComp, FName lastSeenKeyName, AActor * stimActor, TArray<FName> enemyTags)
